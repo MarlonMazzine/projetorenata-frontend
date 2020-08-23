@@ -22,24 +22,21 @@ function obterComprasDe2015Ate2020(compras) {
 
 export default class Compras extends React.Component {
     async obterCompras(codigosDosMateriais) {
-        var url = `/compraSemLicitacao/v1/itens_compras_slicitacao.json?co_conjunto_materiais=${codigosDosMateriais}&order_by=dtDeclaracaoDispensa`
+        var url = '/compraSemLicitacao/v1/itens_compras_slicitacao.json?co_conjunto_materiais=' + codigosDosMateriais + '&order_by=dtDeclaracaoDispensa'
         var tentarDeNovo = false
+        console.log('URL: ' + url)
 
         do {
             tentarDeNovo = await fetch(
-                url,
-                {
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                }
+                url
             ).then(async res => {
                 if (res.status !== 200) {
+                    console.log('Status code: ' + res.status)
                     await sleep(2000)
                     return true
                 } else {
                     const resposta = await res.json()
+                    console.log('Resposta: ' + resposta)
                     obterComprasDe2015Ate2020(resposta._embedded.compras)
                     return false
                 }
