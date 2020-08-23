@@ -1,6 +1,6 @@
 import React from 'react'
 import ComprasDaApi from '../api/Compras'
-import ComprasDoBanco from '../api/Compras'
+import ComprasDoBanco from '../banco/buscar_no_banco/Compras'
 import Materiais from '../../classes/todos_os_materiais/Materiais'
 import AtualizadorDeTabelas from '../banco/atualizadores_automaticos/AtualizadorDeTabelas'
 import Modal from './Modal'
@@ -17,6 +17,7 @@ export default class BotaoCarregarComprasDaApi extends React.Component {
         const qtdDeCodigosDosMateriais = codigosDosMateriais.length
         var totalDeErros = 0
         var comprasDe2015Ate2020 = []
+        debugger
         var comprasCadastradasNoBanco = await new ComprasDoBanco().carregarCompras()
 
         for (var i = 0; i < qtdDeCodigosDosMateriais; i++) {
