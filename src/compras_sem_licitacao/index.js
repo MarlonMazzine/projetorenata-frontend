@@ -36,11 +36,11 @@ class index extends Component {
                     <p className="h2 pl-3 pt-3 pb-4">Licitações pregões</p>
                     <div className="w-100 minha-cor">
                         <ol className="list-group">
-                            <li type="button" className="text-center minha-cor w-100 h-50p pt-3">
+                            <li className="text-center w-100 h-50p pt-3 disabled" aria-disabled="true">
                                 <FontAwesomeIcon className="mr-3" icon={faDatabase} />
                                 Carregar compras
                             </li>
-                            <li type="button" className="text-center minha-cor w-100 h-50p pt-3">
+                            <li className="text-center w-100 h-50p pt-3 disabled" aria-disabled="true">
                                 <FontAwesomeIcon className="mr-3" icon={faSyncAlt} />
                                 Atualiza compras
                             </li>
