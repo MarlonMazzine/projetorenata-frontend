@@ -28,7 +28,10 @@ export default class Compras extends React.Component {
 
         do {
             tentarDeNovo = await fetch(
-                url
+                url,
+                {
+                    mode: 'no-cors'
+                }
             ).then(async res => {
                 if (res.status !== 200) {
                     console.log('Status code: ' + res.status)

@@ -18,7 +18,10 @@ export default class Fornecedor extends React.Component {
 
         do {
             respostaDaRequisicao = await fetch(
-                linkDoFornecedor.replace('/id/', '/doc/') + '.json'
+                "http://compras.dados.gov.br/compraSemLicitacao/" + linkDoFornecedor.replace('/id/', '/doc/') + '.json',
+                {
+                    mode: 'no-cors'
+                }
             ).then(async res => {
                 if (res.status === 502 || res.status === 503) {
                     await sleep(2000)
