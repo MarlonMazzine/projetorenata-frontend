@@ -15,11 +15,11 @@ class index extends Component {
             listaDeMarcas: []
         }
     }
-
+    
     setListaDeMarcas = (marcas) => {
         this.setState({ listaDeMarcas: marcas })
     }
-
+    
     render() {
         return (
             <Fragment>
