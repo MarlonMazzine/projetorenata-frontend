@@ -26,7 +26,15 @@ export default class Compras extends React.Component {
         var tentarDeNovo = false
 
         do {
-            tentarDeNovo = await fetch(url).then(async res => {
+            tentarDeNovo = await fetch(
+                url,
+                {
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                }
+            ).then(async res => {
                 if (res.status !== 200) {
                     await sleep(2000)
                     return true
