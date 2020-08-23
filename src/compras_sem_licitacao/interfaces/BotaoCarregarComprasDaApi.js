@@ -17,13 +17,18 @@ export default class BotaoCarregarComprasDaApi extends React.Component {
         const qtdDeCodigosDosMateriais = codigosDosMateriais.length
         var totalDeErros = 0
         var comprasDe2015Ate2020 = []
-        debugger
         var comprasCadastradasNoBanco = await new ComprasDoBanco().carregarCompras()
 
         for (var i = 0; i < qtdDeCodigosDosMateriais; i++) {
             const codigoDoMaterialAtual = codigosDosMateriais[i]
             comprasDe2015Ate2020 =
                 await this.obterComprasQueSeraoCadastradas(codigoDoMaterialAtual, comprasCadastradasNoBanco)
+
+            if (this.vaiTentarNovamente(comprasDe2015Ate2020)) {
+                alert(comprasDe2015Ate2020)
+                break
+            }
+
             totalDeErros +=
                 await new AtualizadorDeTabelas().atualizarTabelas(comprasDe2015Ate2020, codigoDoMaterialAtual)
             comprasDe2015Ate2020.length = 0
@@ -38,6 +43,11 @@ export default class BotaoCarregarComprasDaApi extends React.Component {
 
     async obterComprasQueSeraoCadastradas(codigoDoMaterialAtual, comprasCadastradasNoBanco) {
         var comprasDaApi = await new ComprasDaApi().obterCompras(codigoDoMaterialAtual)
+
+        if (this.vaiTentarNovamente(comprasDaApi)) {
+            return comprasDaApi
+        }
+
         var qtdComprasDaApi = comprasDaApi.length
         var comprasDe2015Ate2020 = []
 
@@ -56,6 +66,10 @@ export default class BotaoCarregarComprasDaApi extends React.Component {
         }
 
         return comprasDe2015Ate2020
+    }
+
+    vaiTentarNovamente(texto) {
+        return texto.includes('Tente novamente')
     }
 
     render() {

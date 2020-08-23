@@ -24,6 +24,8 @@ export default class Compras extends React.Component {
     async obterCompras(codigosDosMateriais) {
         const url = "http://compras.dados.gov.br/compraSemLicitacao/v1/itens_compras_slicitacao.json?co_conjunto_materiais=" + codigosDosMateriais + "&order_by=dtDeclaracaoDispensa"
         var tentarDeNovo = false
+        var tentativas = 0
+        const maxTentativas = 10
 
         do {
             tentarDeNovo = await fetch(
@@ -31,7 +33,7 @@ export default class Compras extends React.Component {
                 {
                     mode: 'no-cors'
                 }
-            ).then(async res => {
+                ).then(async res => {
                 if (res.status !== 200) {
                     await sleep(2000)
                     return true
@@ -41,7 +43,13 @@ export default class Compras extends React.Component {
                     return false
                 }
             })
-        } while (tentarDeNovo)
+
+            tentativas++
+        } while (tentarDeNovo && tentativas < maxTentativas)
+
+        if (tentativas === maxTentativas) {
+            return 'O serviço da API não está disponível no momento. Tente novamente mais tarde.'
+        }
 
         return listaDeComprasDe2015Ate2020
     }
