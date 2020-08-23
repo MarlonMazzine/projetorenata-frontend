@@ -2,6 +2,12 @@ import React from 'react'
 
 var listaDeComprasDe2015Ate2020 = []
 
+function sleep(ms) {
+    return new Promise(
+        resolve => setTimeout(resolve, ms)
+    );
+}
+
 function obterComprasDe2015Ate2020(compras) {
     var dataRecebida
 
@@ -20,10 +26,9 @@ export default class Compras extends React.Component {
         var tentarDeNovo = false
 
         do {
-            tentarDeNovo = await fetch(
-                url
-            ).then(async res => {
+            tentarDeNovo = await fetch(url).then(async res => {
                 if (res.status !== 200) {
+                    await sleep(2000)
                     return true
                 } else {
                     const resposta = await res.json()
