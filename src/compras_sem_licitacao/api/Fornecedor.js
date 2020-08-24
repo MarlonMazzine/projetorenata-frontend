@@ -13,7 +13,7 @@ export default class Fornecedor extends React.Component {
         }
         
         const linkDoFornecedor = fornecedor.href
-        const url = "http://compras.dados.gov.br/compraSemLicitacao/" + linkDoFornecedor.replace('/id/', '/doc/') + '.json'
+        const url = process.env.REACT_APP_URL_API_COMPRAS + linkDoFornecedor.replace('/id/', '/doc/') + '.json'
         const cpfCnpj = 'CPF / CNPJ: ' + linkDoFornecedor.replace(/\D/g, '')
         var respostaDaRequisicao
 

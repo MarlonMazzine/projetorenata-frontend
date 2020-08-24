@@ -8,9 +8,9 @@ function sleep(ms) {
 
 export default class Itens extends React.Component {
     async obterItens(linkDoItem) {
-        const url = "http://compras.dados.gov.br/compraSemLicitacao" + linkDoItem
+        const url = process.env.REACT_APP_URL_API_COMPRAS + linkDoItem
         var respostaDaRequisicao
-
+        debugger
 
         do {
             respostaDaRequisicao = await fetch(

@@ -8,7 +8,7 @@ function sleep(ms) {
 
 export default class Uf extends React.Component {
     async obterNomeDaUf(codigoUasg) {
-        const url = "http://compras.dados.gov.br/compraSemLicitacao/licitacoes/doc/uasg/" + codigoUasg + ".json"
+        const url = process.env.REACT_APP_URL_API_COMPRAS + "/compraSemLicitacao/licitacoes/doc/uasg/" + codigoUasg + ".json"
         var respostaDaRequisicao
 
         do {
