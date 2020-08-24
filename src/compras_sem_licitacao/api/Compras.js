@@ -1,5 +1,4 @@
 import React from 'react'
-import $ from 'jquery'
 
 var listaDeComprasDe2015Ate2020 = []
 
@@ -26,25 +25,21 @@ export default class Compras extends React.Component {
         const url = "http://compras.dados.gov.br/compraSemLicitacao/v1/itens_compras_slicitacao.json?co_conjunto_materiais=" + codigosDosMateriais + "&order_by=dtDeclaracaoDispensa"
         var tentarDeNovo = false
         var tentativas = 0
-        const maxTentativas = 10
+        const maxTentativas = 5
 
         do {
             tentarDeNovo = await fetch(
                 process.env.REACT_APP_TRATAMENTO_CORS + url
             ).then(async res => {
-                debugger
-
                 if (res.status !== 200) {
                     await sleep(2000)
                     return true
                 } else {
                     const resposta = await res.json()
-                    console.log(resposta)
                     obterComprasDe2015Ate2020(resposta._embedded.compras)
                     return false
                 }
-            }).catch((err) => {
-                debugger
+            }).catch(() => {
                 return false
             })
 
