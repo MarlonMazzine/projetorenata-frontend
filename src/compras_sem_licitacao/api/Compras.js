@@ -1,4 +1,5 @@
 import React from 'react'
+import $ from 'jquery'
 
 var listaDeComprasDe2015Ate2020 = []
 
@@ -29,15 +30,10 @@ export default class Compras extends React.Component {
 
         do {
             tentarDeNovo = await fetch(
-                url,
-                {
-                    headers: {
-                        "Access-Control-Allow-Origin": "true"
-                    }
-                }
+                process.env.REACT_APP_TRATAMENTO_CORS + url
             ).then(async res => {
                 debugger
-                
+
                 if (res.status !== 200) {
                     await sleep(2000)
                     return true

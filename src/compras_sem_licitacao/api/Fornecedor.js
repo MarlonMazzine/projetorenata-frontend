@@ -13,15 +13,13 @@ export default class Fornecedor extends React.Component {
         }
         
         const linkDoFornecedor = fornecedor.href
+        const url = "http://compras.dados.gov.br/compraSemLicitacao/" + linkDoFornecedor.replace('/id/', '/doc/') + '.json'
         const cpfCnpj = 'CPF / CNPJ: ' + linkDoFornecedor.replace(/\D/g, '')
         var respostaDaRequisicao
 
         do {
             respostaDaRequisicao = await fetch(
-                "http://compras.dados.gov.br/compraSemLicitacao/" + linkDoFornecedor.replace('/id/', '/doc/') + '.json',
-                {
-                    mode: 'no-cors'
-                }
+                process.env.REACT_APP_TRATAMENTO_CORS + url
             ).then(async res => {
                 if (res.status === 502 || res.status === 503) {
                     await sleep(2000)

@@ -8,14 +8,13 @@ function sleep(ms) {
 
 export default class Itens extends React.Component {
     async obterItens(linkDoItem) {
+        const url = "http://compras.dados.gov.br/compraSemLicitacao" + linkDoItem
         var respostaDaRequisicao
+
 
         do {
             respostaDaRequisicao = await fetch(
-                "http://compras.dados.gov.br/compraSemLicitacao" + linkDoItem,
-                {
-                    mode: 'no-cors'
-                }
+                process.env.REACT_APP_TRATAMENTO_CORS + url
             ).then(async res => {
                 if (res.status === 502 || res.status === 503) {
                     await sleep(2000)

@@ -11,7 +11,7 @@ export default class AtualizadorDeMarcas extends React.Component {
         const requestBody = obterCorpoDaRequisicao(marca)
 
         return await fetch(
-            'https://projetorenata-backend.herokuapp.com/atualizartabelademarcas',
+            process.env.REACT_APP_URL_API + '/atualizartabelademarcas',
             {
                 method: 'POST',
                 body: requestBody,
