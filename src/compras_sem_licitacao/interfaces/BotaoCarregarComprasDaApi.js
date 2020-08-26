@@ -12,22 +12,17 @@ export default class BotaoCarregarComprasDaApi extends React.Component {
     async carregarComprasSemLicitacao() {
         new Modal().setModalState('modalCarregando')
 
+        const comprasCadastradasNoBanco = await new ComprasDoBanco().carregarCompras()
         const materiais = new Materiais().obterTodosOsMateriais()
         const codigosDosMateriais = Array.from(materiais.keys())
         const qtdDeCodigosDosMateriais = codigosDosMateriais.length
         var totalDeErros = 0
         var comprasDe2015Ate2020 = []
-        var comprasCadastradasNoBanco = await new ComprasDoBanco().carregarCompras()
 
         for (var i = 0; i < qtdDeCodigosDosMateriais; i++) {
             const codigoDoMaterialAtual = codigosDosMateriais[i]
             comprasDe2015Ate2020 =
                 await this.obterComprasQueSeraoCadastradas(codigoDoMaterialAtual, comprasCadastradasNoBanco)
-
-            if (this.vaiTentarNovamente(comprasDe2015Ate2020)) {
-                alert(comprasDe2015Ate2020)
-                break
-            }
 
             totalDeErros +=
                 await new AtualizadorDeTabelas().atualizarTabelas(comprasDe2015Ate2020, codigoDoMaterialAtual)
@@ -42,18 +37,13 @@ export default class BotaoCarregarComprasDaApi extends React.Component {
     }
 
     async obterComprasQueSeraoCadastradas(codigoDoMaterialAtual, comprasCadastradasNoBanco) {
-        var comprasDaApi = await new ComprasDaApi().obterCompras(codigoDoMaterialAtual)
-
-        if (this.vaiTentarNovamente(comprasDaApi)) {
-            return comprasDaApi
-        }
-
-        var qtdComprasDaApi = comprasDaApi.length
+        const comprasDaApi = await new ComprasDaApi().obterCompras(codigoDoMaterialAtual)
+        const qtdComprasDaApi = comprasDaApi.length
         var comprasDe2015Ate2020 = []
 
         for (var i = 0; i < qtdComprasDaApi; i++) {
-            var codigoDaCompraApi = comprasDaApi[i]._links.self.title.replace(/.+?(\d.+)/g, '$1')
-            var indexDaCompraCadastradaNoBanco =
+            const codigoDaCompraApi = comprasDaApi[i]._links.self.title.replace(/.+?(\d.+)/g, '$1')
+            const indexDaCompraCadastradaNoBanco =
                 comprasCadastradasNoBanco.findIndex(x =>
                     x.codigocatmat === parseInt(codigoDoMaterialAtual) && x.codigodacompra === codigoDaCompraApi
                 )
@@ -65,11 +55,8 @@ export default class BotaoCarregarComprasDaApi extends React.Component {
             comprasDe2015Ate2020.push(comprasDaApi[i])
         }
 
+        comprasDaApi.length = 0
         return comprasDe2015Ate2020
-    }
-
-    vaiTentarNovamente(texto) {
-        return texto.includes('Tente novamente')
     }
 
     render() {

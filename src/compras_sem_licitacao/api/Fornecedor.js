@@ -18,11 +18,11 @@ export default class Fornecedor extends React.Component {
         var respostaDaRequisicao
 
         do {
+            await sleep(3000)
             respostaDaRequisicao = await fetch(
                 process.env.REACT_APP_TRATAMENTO_CORS + url
             ).then(async res => {
                 if (res.status === 502 || res.status === 503) {
-                    await sleep(2000)
                     return res.status
                 } else if (res.status !== 200) {
                     return cpfCnpj
