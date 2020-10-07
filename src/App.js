@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Home from './compras_sem_licitacao/index.js';
+import Home from './compras/index.js';
 
 function App() {
     return ( 

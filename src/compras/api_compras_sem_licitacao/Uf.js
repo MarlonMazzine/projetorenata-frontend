@@ -8,7 +8,7 @@ function sleep(ms) {
 
 export default class Uf extends React.Component {
     async obterNomeDaUf(codigoUasg) {
-        const url = process.env.REACT_APP_URL_API_COMPRAS + "/compraSemLicitacao/licitacoes/doc/uasg/" + codigoUasg + ".json"
+        const url = process.env.REACT_APP_URL_API_COMPRAS + "/licitacoes/doc/uasg/" + codigoUasg + ".json"
         var respostaDaRequisicao
 
         do {
@@ -19,13 +19,13 @@ export default class Uf extends React.Component {
                 if (res.status === 502 || res.status === 503) {
                     return res.status
                 } else if (res.status !== 200) {
-                    return codigoUasg
+                    alert('Ocorreu um erro inesperado entre em contato comigo. Status de resposta: ' + res.statusText)
                 } else {
                     const resposta = await res.json()
                     return resposta.sigla_uf.toUpperCase()
                 }
             }).catch(erro => {
-                return erro.message
+                alert('Ocorreu um erro inesperado entre em contato comigo.')
             })
         } while (respostaDaRequisicao === 502 || respostaDaRequisicao === 503)
 

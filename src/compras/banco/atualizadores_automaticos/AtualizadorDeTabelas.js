@@ -1,6 +1,5 @@
 import React from 'react'
-import Itens from '../../api/Itens'
-import AtualizadorDeMarcas from './AtualizadorDeMarcas'
+import Itens from '../../api_compras_sem_licitacao/Itens'
 import AtualizadorDeCompraSemLicitacao from './AtualizadorDeCompraSemLicitacao'
 
 function sleep(ms) {
@@ -32,9 +31,6 @@ export default class AtualizadorDeTabelas extends React.Component {
                 continue
             }
 
-            const marcaAtual = itensDaCompra[indexDoMaterialAtual].no_marca_material.toUpperCase()
-
-            await new AtualizadorDeMarcas().atualizarTabelaDeMarcas(marcaAtual)
             await sleep(4000)
             await new AtualizadorDeCompraSemLicitacao().atualizarTabelaDeComprasSemLicitacao(
                 listaDeCompras[i],

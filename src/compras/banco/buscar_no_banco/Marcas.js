@@ -2,8 +2,9 @@ import React from 'react'
 
 export default class Marcas extends React.Component {
     async carregarMarcas() {
+        const URL = process.env.REACT_APP_URL_API + '/todasasmarcas'
         return await fetch(
-            'https://projetorenata-backend.herokuapp.com/todasasmarcas'
+            URL
         ).then(async res => {
             const resposta = await res.json()
 

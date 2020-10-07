@@ -1,6 +1,6 @@
 import React from 'react'
-import Fornecedor from '../../api/Fornecedor'
-import Uf from '../../api/Uf'
+import Fornecedor from '../../api_compras_sem_licitacao/Fornecedor'
+import Uf from '../../api_compras_sem_licitacao/Uf'
 import Materiais from '../../../classes/todos_os_materiais/Materiais'
 
 function obterValorUnitario(valorTotal, qtdDeMateriais) {
@@ -11,15 +11,15 @@ async function obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMateria
     const materiais = new Materiais().obterTodosOsMateriais()
     const nomeDoFornecedor = await new Fornecedor().obterNomeDoFornecedor(itemDaCompra._links.fornecedor)
     const nomeDaUf = await new Uf().obterNomeDaUf(compraAtual.co_uasg)
-
+    
     return JSON.stringify({
         codigodacompra: compraAtual._links.self.title.replace(/.+?(\d.+)/g, '$1'),
-        nomedamarca: itemDaCompra.no_marca_material.toUpperCase(),
+        nomedamarca: itemDaCompra.no_marca_material.toUpperCase().trim(),
         datadacompra: compraAtual.dtDeclaracaoDispensa.slice(0, -9),
         modalidade: compraAtual._links.modalidade_licitacao.title.replace(/.+:\s(.+)/g, '$1'),
         codigocatmat: parseInt(codigoDoMaterialAtual),
         descricaodoitem: materiais.get(codigoDoMaterialAtual).replace(/(\s{2,})/g, ''),
-        unidadedefornecimento: compraAtual.ds_objeto_licitacao.replace(/(\s{2,})/g, ''),
+        unidadedefornecimento: itemDaCompra.no_unidade_medida.trim(),
         quantidadeofertada: parseInt(itemDaCompra.qt_material_alt),
         valorunitario: obterValorUnitario(itemDaCompra.vr_estimado, parseInt(itemDaCompra.qt_material_alt)),
         nomedofornecedor: nomeDoFornecedor,
@@ -31,9 +31,10 @@ async function obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMateria
 export default class AtualizadorDeCompraSemLicitacao extends React.Component {
     async atualizarTabelaDeComprasSemLicitacao(compraAtual, itemDaCompra, codigoDoMaterialAtual) {
         const requestBody = await obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMaterialAtual)
+        const URL = process.env.REACT_APP_URL_API + '/atualizartabeladecomprassemlicitacao'
         
         return await fetch(
-            process.env.REACT_APP_URL_API + '/atualizartabeladecomprassemlicitacao',
+            URL,
             {
                 method: 'POST',
                 body: requestBody,

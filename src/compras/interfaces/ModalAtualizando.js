@@ -2,7 +2,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../styles.css'
 
-export default class Modal extends React.Component {
+export default class ModalAtualizado extends React.Component {
     async setModalState(nomeDoIdDoModal) {
         var modal = document.getElementById(nomeDoIdDoModal)
 
