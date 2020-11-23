@@ -41,26 +41,5 @@ export default class AtualizadorDeCompraSemLicitacao extends React.Component {
         if (resposta === 404 || resposta === '') {
             throw new Error(`Houve um erro ao atualizar as compras sem licitação. Resposta: ${resposta}`)
         }
-
-        // return await fetch(
-        //     URL,
-        //     {
-        //         method: 'POST',
-        //         body: requestBody,
-        //         headers: { 
-        //             "Content-type": "application/json; charset=UTF-8"
-        //         }
-        //     }
-        // ).then(async res => {
-        //     const resposta = await res.json()
-
-        //     if (res.status !== 200) {
-        //         alert('Não foi possível atualizar pois ocorreu um erro em: ' + res.status)
-        //     } else {
-        //         return await resposta
-        //     }
-        // }).catch(err => {
-        //     alert('Houve um erro ao atualizar as compras. Erro: ' + err)
-        // })
     }
 }
