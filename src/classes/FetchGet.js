@@ -12,7 +12,7 @@ async function obterResposta(url) {
 
 export default class FetchGet extends React.Component {
     async obterRespostaFetchGetEmTexto(url) {
-        const resposta = await obterResposta(url)//new Fetch().obterRespostaFetch(url, _configuracoes)// this.obterRespostaFetchGet(url)
+        const resposta = await obterResposta(url)
         
         if (resposta === '') {
             return resposta
@@ -22,8 +22,7 @@ export default class FetchGet extends React.Component {
     }
     
     async obterRespostaFetchGetEmJson(url) {
-        debugger
-        const resposta = await obterResposta(url)//new Fetch().obterRespostaFetch(url, _configuracoes)// this.obterRespostaFetchGet(url)
+        const resposta = await obterResposta(url)
         
         if (resposta === '') {
             return resposta

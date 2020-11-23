@@ -24,7 +24,6 @@ export default class BotaoCarregarComprasDoBanco extends React.Component {
         new Modal().setModalState('modalCarregando')
         
         try {
-            debugger
             const comprasDoBanco = await new Compras()
                 .carregarComprasComCodigoDoMaterial(this.props.endpoint, this.props.material)
 

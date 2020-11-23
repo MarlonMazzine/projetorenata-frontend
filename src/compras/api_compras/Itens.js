@@ -14,6 +14,6 @@ export default class Itens extends React.Component {
             }
         } while (respostaDaRequisicao === '')
 
-        return await respostaDaRequisicao
+        return await respostaDaRequisicao._embedded.compras
     }
 }
