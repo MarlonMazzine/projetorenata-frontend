@@ -14,9 +14,9 @@ async function obterResposta(url, body, header) {
 
 export default class FetchPost extends React.Component {
     async obterRespostaFetchPostEmTexto(url, body, header) {
-        const resposta = await obterResposta(url, body, header)//new Fetch().obterRespostaFetch(url, configuracoes)// this.obterRespostaFetchPost(url, body, header)
+        const resposta = await obterResposta(url, body, header)
 
-        if (resposta === '') {
+        if (resposta === '' || resposta === 404) {
             return resposta
         }
         
@@ -26,7 +26,7 @@ export default class FetchPost extends React.Component {
     async obterRespostaFetchPostEmJson(url, body, header) {
         const resposta = await obterResposta(url, body, header)
         
-        if (resposta === '') {
+        if (resposta === '' || resposta === 404) {
             return resposta
         }
 

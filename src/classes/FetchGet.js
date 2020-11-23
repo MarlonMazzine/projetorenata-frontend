@@ -14,7 +14,7 @@ export default class FetchGet extends React.Component {
     async obterRespostaFetchGetEmTexto(url) {
         const resposta = await obterResposta(url)
         
-        if (resposta === '') {
+        if (resposta === '' || resposta === 404) {
             return resposta
         }
         
@@ -24,7 +24,7 @@ export default class FetchGet extends React.Component {
     async obterRespostaFetchGetEmJson(url) {
         const resposta = await obterResposta(url)
         
-        if (resposta === '') {
+        if (resposta === '' || resposta === 404) {
             return resposta
         }
         
