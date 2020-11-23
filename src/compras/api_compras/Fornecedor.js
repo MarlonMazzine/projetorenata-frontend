@@ -8,7 +8,7 @@ export default class Fornecedor extends React.Component {
         }
         
         const linkDoFornecedor = fornecedor.href
-        const URL = process.env.REACT_APP_URL_API_COMPRAS + linkDoFornecedor.replace('/id/', '/doc/') + '.json'
+        const URL = process.env.REACT_APP_TRATAMENTO_CORS + process.env.REACT_APP_URL_API_COMPRAS + linkDoFornecedor.replace('/id/', '/doc/') + '.json'
         const cpfCnpj = `CPF / CNPJ: ${linkDoFornecedor.replace(/\D/g, '')}`
         var respostaDaRequisicao
 
