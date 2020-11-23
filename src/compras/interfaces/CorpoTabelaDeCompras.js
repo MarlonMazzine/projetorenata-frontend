@@ -1,6 +1,6 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 export default class CorpoTabelaDeCompras extends React.Component {
     render() {
@@ -21,9 +21,9 @@ export default class CorpoTabelaDeCompras extends React.Component {
                             <td className="text-nowrap text-center align-middle">{compra.nomedamarca}</td>
                             <td className="align-middle">{compra.uasg}</td>
                             <td className="text-nowrap text-center align-middle">{compra.uf}</td>
-                            <td className="text-nowrap text-center align-middle">
+                            {/* <td className="text-nowrap text-center align-middle">
                                 <button type="button" className="btn btn-info btn-sm" title="Editar" disabled><FontAwesomeIcon icon={faEdit} /></button>
-                            </td>
+                            </td> */}
                         </tr>
                     })}
                 </tbody>

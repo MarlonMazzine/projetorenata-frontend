@@ -1,52 +1,50 @@
 import React from 'react'
+import FetchPost from '../../../classes/FetchPost'
+import FetchGet from '../../../classes/FetchGet'
 
-function obterCorpoDaRequisicao(codigoDoMaterial) {
-    return JSON.stringify({
-        codigocatmat: codigoDoMaterial
-    })
+function obterComprasDoBanco(resposta) {
+    if (resposta === '' || resposta === 404 || resposta === undefined) {
+        throw new Error(`Não foi possível obter as compras do banco no momento. Resposta: ${resposta}`)
+    } else if (resposta.rowCount === 0) {
+        return 'Não há nenhuma compra cadastrada no banco.'
+    }
+
+    return resposta.rows
 }
-
-const URL = process.env.REACT_APP_URL_API + '/comprassemlicitacao'
 
 export default class Compras extends React.Component {
     async carregarCompras() {
-        return await fetch(
-            URL
-        ).then(async res => {
-            const resposta = await res.json()
+        const URL = process.env.REACT_APP_URL_API + '/comprassemlicitacao'
+        const resposta = await new FetchGet().obterRespostaFetchGetEmJson(URL)
 
-            if (resposta.rowCount === 0) {
-                return 'Não há nenhuma compra cadastrada no banco.'
-            }
+        return obterComprasDoBanco(resposta)
 
-            return resposta.rows
-        }).catch(err => {
-            return 'Houve um erro ao obter as compras sem licitação do banco. Erro: ' + err.message
-        })
+        // return await fetch(
+        //     URL
+        // ).then(async res => {
+        //     const resposta = await res.json()
+
+        //     if (resposta.rowCount === 0) {
+        //         return 'Não há nenhuma compra cadastrada no banco.'
+        //     }
+
+        //     return resposta.rows
+        // }).catch(err => {
+        //     return 'Houve um erro ao obter as compras sem licitação do banco. Erro: ' + err.message
+        // })
     }
 
-    async carregarComprasComCodigoDoMaterial(codigoDoMaterial) {
-        const requestBody = obterCorpoDaRequisicao(codigoDoMaterial)
+    async carregarComprasComCodigoDoMaterial(endpoint, codigoDoMaterial) {
+        const headers = { 
+            "Content-type": "application/json; charset=UTF-8"
+        }
 
-        return await fetch(
-            URL,
-            {
-                method: "POST",
-                body: requestBody,
-                headers: { 
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            }
-        ).then(async res => {
-            const resposta = await res.json()
-            
-            if (resposta.rowCount === 0) {
-                return 'Não há nenhuma compra cadastrada no banco.'
-            }
-
-            return resposta.rows
-        }).catch(err => {
-            return 'Houve um erro ao obter as compras sem licitação do banco. Erro: ' + err.message
+        const requestBody = JSON.stringify({
+            codigocatmat: codigoDoMaterial
         })
+
+        const URL = process.env.REACT_APP_URL_API + endpoint
+        const resposta = await new FetchPost().obterRespostaFetchPostEmJson(URL, requestBody, headers)
+        return obterComprasDoBanco(resposta)
     }
 }

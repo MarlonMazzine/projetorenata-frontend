@@ -1,8 +1,10 @@
 import React from 'react'
-import BotaoCarregarComprasDoBanco from './BotaoCarregarComprasDoBanco'
-import BotaoCarregarComprasDaApi from './BotaoCarregarComprasDaApi'
+import BotaoComprasSemLicitacao from './botoes_compras_do_banco/BotaoComprasComLicitacao'
+import BotaoComprasComLicitacao from './botoes_compras_do_banco/BotaoComprasSemLicitacao'
+import BotaoCarregarComprasDaApiParaOBanco from './botao_compra_da_api/BotaoCarregarComprasDaApiParaOBanco'
 import Materiais from '../../classes/todos_os_materiais/Materiais'
 import ModalListaDeMarcas from './ModalListaDeMarcas'
+import ModalParaEdicaoDaCompra from './editar_compras/ModalParaEdicaoDaCompra'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretLeft } from '@fortawesome/free-solid-svg-icons'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -39,7 +41,7 @@ export default class ListaDeMateriais extends React.Component {
                     <ol className="list-group">
                         <li className="list-group-item d-flex justify-content-between align-items-center">
                             <h2>Lista de insulinas</h2>
-                            <BotaoCarregarComprasDaApi />
+                            <BotaoCarregarComprasDaApiParaOBanco />
                         </li>
                         {Array.from(materiais).map((material, i) => {
                             return <li key={i} className="list-group-item d-flex justify-content-between align-items-center">
@@ -49,15 +51,17 @@ export default class ListaDeMateriais extends React.Component {
                                         <FontAwesomeIcon icon={faCaretLeft} /> Carregar compras
                                     </button>
                                     <div className="dropdown-content btn-group">
-                                        <BotaoCarregarComprasDoBanco material={material[0]} setListaDeMarcas={this.setListaDeMarcas} setListaDeCompras={this.setListaDeCompras} setCodigoDoMaterialAtual={this.setCodigoDoMaterialAtual}/>
-                                        <button type="button" className="btn btn-info" disabled>Licitações/Pregões</button>
-                                        <button type="button" className="btn btn-info" disabled>Todas</button>
+                                        <BotaoComprasSemLicitacao material={material[0]} setListaDeMarcas={this.setListaDeMarcas} setListaDeCompras={this.setListaDeCompras} setCodigoDoMaterialAtual={this.setCodigoDoMaterialAtual}/>
+                                        
+                                        <BotaoComprasComLicitacao material={material[0]} setListaDeMarcas={this.setListaDeMarcas} setListaDeCompras={this.setListaDeCompras} setCodigoDoMaterialAtual={this.setCodigoDoMaterialAtual}/>
                                     </div>
                                 </div>
                             </li>
                         })}
                     </ol>
                 </div>
+                
+                <ModalParaEdicaoDaCompra />
 
                 <ModalListaDeMarcas
                     marcas={this.state.listaDeMarcas}

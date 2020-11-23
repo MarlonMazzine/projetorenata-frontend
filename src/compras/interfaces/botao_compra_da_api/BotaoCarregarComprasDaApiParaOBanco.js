@@ -1,45 +1,42 @@
 import React from 'react'
-import ComprasSemLicitacao from '../api_compras_sem_licitacao/Compras'
-import ComprasDoBanco from '../banco/buscar_no_banco/Compras'
-import Materiais from '../../classes/todos_os_materiais/Materiais'
-import AtualizadorDeTabelas from '../banco/atualizadores_automaticos/AtualizadorDeTabelas'
-import Modal from './ModalAtualizando'
+import ComprasSemLicitacao from '../../api_compras_sem_licitacao/ComprasSemLicitacao'
+import ComprasComLicitacao from '../../api_compras_licitacoes/ComprasComLicitacoes'
+import ComprasDoBanco from '../../banco/buscar_no_banco/Compras'
+import Materiais from '../../../classes/todos_os_materiais/Materiais'
+import AtualizadorDeTabelas from '../../banco/atualizadores_automaticos/AtualizadorDeTabelas'
+import Modal from '../ModalAtualizando'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import 'bootstrap/dist/css/bootstrap.css'
 
-export default class BotaoCarregarComprasDaApi extends React.Component {
+export default class BotaoCarregarComprasDaApiParaOBanco extends React.Component {
     async carregarComprasSemLicitacao() {
         new Modal().setModalState('modalCarregando')
-        const comprasCadastradasNoBanco = await new ComprasDoBanco().carregarCompras()
-        const materiais = new Materiais().obterTodosOsMateriais()
-        const codigosDosMateriais = Array.from(materiais.keys())
-        const qtdDeCodigosDosMateriais = codigosDosMateriais.length
-        var totalDeErros = 0
-        var comprasDe2015Ate2020 = []
         
-        for (var i = 0; i < qtdDeCodigosDosMateriais; i++) {
-            const codigoDoMaterialAtual = codigosDosMateriais[i]
-            comprasDe2015Ate2020 =
-                await this.obterComprasQueSeraoCadastradas(codigoDoMaterialAtual, comprasCadastradasNoBanco)
+        try {
+            const comprasCadastradasNoBanco = await new ComprasDoBanco().carregarCompras()
+            const materiais = new Materiais().obterTodosOsMateriais()
+            const codigosDosMateriais = Array.from(materiais.keys())
+            const qtdDeCodigosDosMateriais = codigosDosMateriais.length
+            
+            for (var i = 0; i < qtdDeCodigosDosMateriais; i++) {
+                var comprasDe2015Ate2020 = []
+                await new ComprasComLicitacao().atualizarComprasNoBanco(codigosDosMateriais[i])
+                const codigoDoMaterialAtual = codigosDosMateriais[i]
+                comprasDe2015Ate2020 =
+                    await this.obterComprasQueSeraoCadastradas(codigoDoMaterialAtual, comprasCadastradasNoBanco)
 
-            totalDeErros +=
                 await new AtualizadorDeTabelas().atualizarTabelas(comprasDe2015Ate2020, codigoDoMaterialAtual)
-            comprasDe2015Ate2020.length = 0
+            }
+        } catch (e) {
+            alert(e.message)
         }
-
-        this.falharSeTiverErros(totalDeErros)
+        
         new Modal().setModalState('modalCarregando')
-    }
-
-    falharSeTiverErros(totalDeErros) {
-        if (totalDeErros > 0) {
-            alert(`Foram encontrados ${totalDeErros} erros durante a atualização. Convém atualizar novamente.`)
-        }
     }
 
     async obterComprasQueSeraoCadastradas(codigoDoMaterialAtual, comprasCadastradasNoBanco) {
-        const comprasDaApiSemLicitacoes = await new ComprasSemLicitacao().obterCompras(codigoDoMaterialAtual)
+        const comprasDaApiSemLicitacoes = await new ComprasSemLicitacao().obterComprasSemLicitacao(codigoDoMaterialAtual)
         const qtdComprasDaApi = comprasDaApiSemLicitacoes.length
         var comprasDe2015Ate2020 = []
         
@@ -65,7 +62,8 @@ export default class BotaoCarregarComprasDaApi extends React.Component {
         }
 
         return comprasCadastradasNoBanco.findIndex(x =>
-            x.codigocatmat === parseInt(codigoDoMaterialAtual) && x.codigodacompra === codigoDaCompraApi
+            x.codigocatmat === parseInt(codigoDoMaterialAtual) &&
+            x.codigodacompra === codigoDaCompraApi
         )
     }
 

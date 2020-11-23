@@ -18,7 +18,7 @@ export default class CabecalhoTabelaDeCompras extends React.Component {
                         <th className="align-middle" scope="col">Marca</th>
                         <th className="align-middle" scope="col">UASG</th>
                         <th className="align-middle" scope="col">UF</th>
-                        <th className="align-middle" scope="col">Ações</th>
+                        {/* <th className="align-middle" scope="col">Ações</th> */}
                     </tr>
                 </thead>
             </React.Fragment>

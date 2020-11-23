@@ -1,5 +1,5 @@
 import React from 'react'
-import Itens from '../../api_compras_sem_licitacao/Itens'
+import Itens from '../../api_compras/Itens'
 import AtualizadorDeCompraSemLicitacao from './AtualizadorDeCompraSemLicitacao'
 
 function sleep(ms) {
@@ -10,7 +10,6 @@ function sleep(ms) {
 
 export default class AtualizadorDeTabelas extends React.Component {
     async atualizarTabelas(listaDeCompras, codigoDoMaterialAtual) {
-        var totalDeErros = 0
         const qtdDeComprasDe2015Ate2020 = listaDeCompras.length
 
         for (var i = 0; i < qtdDeComprasDe2015Ate2020; i++) {
@@ -18,7 +17,6 @@ export default class AtualizadorDeTabelas extends React.Component {
             const itensDaCompra = await new Itens().obterItens(linkDoItem)
 
             if (itensDaCompra === linkDoItem || itensDaCompra === undefined) {
-                totalDeErros++
                 await sleep(1500)
                 continue
             }
@@ -26,19 +24,12 @@ export default class AtualizadorDeTabelas extends React.Component {
             const indexDoMaterialAtual = itensDaCompra.findIndex(c => c.co_conjunto_materiais === parseInt(codigoDoMaterialAtual))
 
             if (itensDaCompra[indexDoMaterialAtual] === undefined) {
-                totalDeErros++
                 await sleep(1500)
                 continue
             }
 
-            await sleep(4000)
-            await new AtualizadorDeCompraSemLicitacao().atualizarTabelaDeComprasSemLicitacao(
-                listaDeCompras[i],
-                itensDaCompra[indexDoMaterialAtual],
-                codigoDoMaterialAtual
-            )
+            await new AtualizadorDeCompraSemLicitacao()
+                .atualizarTabelaDeComprasSemLicitacao(listaDeCompras[i], itensDaCompra[indexDoMaterialAtual], codigoDoMaterialAtual)
         }
-
-        return totalDeErros
     }
 }

@@ -9,20 +9,14 @@ export default class ModalAtualizado extends React.Component {
         if (modal.style.display === 'none') {
             modal.style.display = 'block'
         } else {
-            this.sleep(2000).then(() => {
-                modal.style.display = 'none'
-            })
+            modal.style.display = 'none'
         }
-    }
-
-    async sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     render() {
         return (
             <React.Fragment>
-                <div id="modalCarregando" style={{ display: "none" }}>
+                <div id="modalCarregando" className="modal fade show" style={{ display: "none" }}>
                     <div id="modal-backgound"></div>
                     <div className="modal-dialog modal-dialog-centered fixed-top position-absolute" tabIndex="-1" role="dialog" aria-labelledby="modalCarregando" aria-modal="true">
                         <div className="modal-dialog w-100">

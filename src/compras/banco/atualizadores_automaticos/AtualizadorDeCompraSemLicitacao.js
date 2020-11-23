@@ -1,7 +1,9 @@
 import React from 'react'
-import Fornecedor from '../../api_compras_sem_licitacao/Fornecedor'
-import Uf from '../../api_compras_sem_licitacao/Uf'
+import Fornecedor from '../../api_compras/Fornecedor'
 import Materiais from '../../../classes/todos_os_materiais/Materiais'
+import Uasg from '../../api_compras/Uasg'
+import FetchPost from '../../../classes/FetchPost'
+import Headers from '../../../classes/Headers'
 
 function obterValorUnitario(valorTotal, qtdDeMateriais) {
     return parseFloat(valorTotal / qtdDeMateriais).toFixed(2)
@@ -10,8 +12,9 @@ function obterValorUnitario(valorTotal, qtdDeMateriais) {
 async function obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMaterialAtual) {
     const materiais = new Materiais().obterTodosOsMateriais()
     const nomeDoFornecedor = await new Fornecedor().obterNomeDoFornecedor(itemDaCompra._links.fornecedor)
-    const nomeDaUf = await new Uf().obterNomeDaUf(compraAtual.co_uasg)
-    
+    const uasg = await new Uasg().obterUasg(compraAtual.co_uasg)
+    const nomeDaUf = uasg.nome
+
     return JSON.stringify({
         codigodacompra: compraAtual._links.self.title.replace(/.+?(\d.+)/g, '$1'),
         nomedamarca: itemDaCompra.no_marca_material.toUpperCase().trim(),
@@ -30,28 +33,34 @@ async function obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMateria
 
 export default class AtualizadorDeCompraSemLicitacao extends React.Component {
     async atualizarTabelaDeComprasSemLicitacao(compraAtual, itemDaCompra, codigoDoMaterialAtual) {
-        const requestBody = await obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMaterialAtual)
         const URL = process.env.REACT_APP_URL_API + '/atualizartabeladecomprassemlicitacao'
-        
-        return await fetch(
-            URL,
-            {
-                method: 'POST',
-                body: requestBody,
-                headers: { 
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            }
-        ).then(async res => {
-            const resposta = await res.json()
-            
-            if (res.status !== 200) {
-                alert('Não foi possível atualizar pois ocorreu um erro em: ' + res.status)
-            } else {
-                return await resposta
-            }
-        }).catch(err => {
-            alert('Houve um erro ao atualizar as compras. Erro: ' + err)
-        })
+        const requestBody = await obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMaterialAtual)
+        const header = new Headers().obterContentTypeHeaderJson()
+        const resposta = await new FetchPost().obterRespostaFetchPostEmJson(URL, requestBody, header);
+
+        if (resposta === 404 || resposta === '') {
+            throw new Error(`Houve um erro ao atualizar as compras sem licitação. Resposta: ${resposta}`)
+        }
+
+        // return await fetch(
+        //     URL,
+        //     {
+        //         method: 'POST',
+        //         body: requestBody,
+        //         headers: { 
+        //             "Content-type": "application/json; charset=UTF-8"
+        //         }
+        //     }
+        // ).then(async res => {
+        //     const resposta = await res.json()
+
+        //     if (res.status !== 200) {
+        //         alert('Não foi possível atualizar pois ocorreu um erro em: ' + res.status)
+        //     } else {
+        //         return await resposta
+        //     }
+        // }).catch(err => {
+        //     alert('Houve um erro ao atualizar as compras. Erro: ' + err)
+        // })
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class ExportarTabela extends React.Component {
+export default class ExportacaoEmXls extends React.Component {
     exportarTabelaDeComprasEmXls(nomeDoArquivo) {
         const elementTabel = document.getElementById('tabelaDeCompras')
         var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">'

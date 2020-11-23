@@ -4,18 +4,6 @@ import ModalAtualizando from './interfaces/ModalAtualizando'
 import ListaDeMateriais from './interfaces/ListaDeMaterias'
 
 class index extends Component {
-    constructor() {
-        super()
-
-        this.state = {
-            listaDeMarcas: []
-        }
-    }
-    
-    setListaDeMarcas = (marcas) => {
-        this.setState({ listaDeMarcas: marcas })
-    }
-    
     render() {
         return (
             <Fragment>
