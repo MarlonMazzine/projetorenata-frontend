@@ -6,14 +6,15 @@ import FetchPost from '../../../classes/FetchPost'
 import Headers from '../../../classes/Headers'
 
 function obterValorUnitario(valorTotal, qtdDeMateriais) {
-    return parseFloat(valorTotal / qtdDeMateriais).toFixed(2)
+    const valorUnitarioComDuasCasasDecimais = parseFloat(valorTotal / qtdDeMateriais).toFixed(2)
+    return parseFloat(valorUnitarioComDuasCasasDecimais)
 }
 
 async function obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMaterialAtual) {
     const materiais = new Materiais().obterTodosOsMateriais()
     const nomeDoFornecedor = await new Fornecedor().obterNomeDoFornecedor(itemDaCompra._links.fornecedor)
     const uasg = await new Uasg().obterUasg(compraAtual.co_uasg)
-    const nomeDaUf = uasg.nome
+    const nomeDaUf = uasg.sigla_uf
 
     return JSON.stringify({
         codigodacompra: compraAtual._links.self.title.replace(/.+?(\d.+)/g, '$1'),
