@@ -10,7 +10,7 @@ export default class Uasg extends React.Component {
         do {
             uasg = await new FetchGet().obterRespostaFetchGetEmJson(URL)
 
-            if (uasg !== "") {
+            if (uasg !== "" && uasg !== 404) {
                 tentarDeNovo = false
             }
         } while (tentarDeNovo)

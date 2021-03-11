@@ -2,6 +2,7 @@ import React from 'react'
 import Fornecedor from '../../api_compras/Fornecedor'
 import Materiais from '../../../classes/todos_os_materiais/Materiais'
 import Uasg from '../../api_compras/Uasg'
+import Orgao from '../../api_compras/Orgao'
 import FetchPost from '../../../classes/FetchPost'
 import Headers from '../../../classes/Headers'
 
@@ -14,6 +15,7 @@ async function obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMateria
     const materiais = new Materiais().obterTodosOsMateriais()
     const nomeDoFornecedor = await new Fornecedor().obterNomeDoFornecedor(itemDaCompra._links.fornecedor)
     const uasg = await new Uasg().obterUasg(compraAtual.co_uasg)
+    const orgao = new Orgao().obterOrgao(compraAtual._links.orgao.title)
     const nomeDaUf = uasg.sigla_uf
 
     return JSON.stringify({
@@ -28,6 +30,7 @@ async function obterCorpoDaRequisicao(compraAtual, itemDaCompra, codigoDoMateria
         valorunitario: obterValorUnitario(itemDaCompra.vr_estimado, parseInt(itemDaCompra.qt_material_alt)),
         nomedofornecedor: nomeDoFornecedor,
         uasg: compraAtual._links.uasg.title.toString().replace(/.+:\s(.+)/g, '$1'),
+        orgao: orgao,
         uf: nomeDaUf
     })
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import Uasg from '../api_compras/Uasg'
+import Orgao from '../api_compras/Orgao'
 import DetalhesDaCompraComLicitacao from './DetalhesDaCompraComLicitacao'
 import UnidadeDeFornecimento from './UnidadeDeFornecimento'
 import Materiais from '../../classes/todos_os_materiais/Materiais'
@@ -105,9 +106,9 @@ async function obterValoresParaMontarJsonSeCompraNaoEstaCadastradaNoBanco(codigo
 async function obterValoresParaMontarOJson(detalhesDoItemAtual, numeroDaLicitacao, nomeDoMaterial, codigoDoMaterial,
         linhaDaTabela, modalidade, numeroDoItem) {
     await carregarUasgSeEstiverUndefined(linhaDaTabela)
-
     const nomeDaUasg = _uasg.nome
     const uf = _uasg.sigla_uf
+    const orgao = new Orgao().obterOrgao(_uasg._links.orgao.title);
     _uasg = undefined
     const nomeDaMarca = obterNomeDaMarca(detalhesDoItemAtual)
     const unidadeDeFornecimento = await obterUnidadeDeFornecimento(numeroDaLicitacao, detalhesDoItemAtual)
@@ -118,7 +119,7 @@ async function obterValoresParaMontarOJson(detalhesDoItemAtual, numeroDaLicitaca
     
     return [numeroDaLicitacao, nomeDaMarca, _dataDaCompra, modalidade, codigoDoMaterial,
         nomeDoMaterial, unidadeDeFornecimento, quantidadeOfertada, valorUnitario, nomeDoFornecedor, nomeDaUasg, uf,
-        numeroDoItem]
+        numeroDoItem, orgao]
 }
 
 async function carregarUasgSeEstiverUndefined(linhaDaTabela) {
@@ -141,7 +142,8 @@ function obterJsonDeComprasComLicitacao(valoresParaMontarOJson) {
         nomedofornecedor: valoresParaMontarOJson[9],
         uasg: valoresParaMontarOJson[10],
         uf: valoresParaMontarOJson[11],
-        numerodoitem: valoresParaMontarOJson[12]
+        numerodoitem: valoresParaMontarOJson[12],
+        orgao: valoresParaMontarOJson[13]
     }
 }
 

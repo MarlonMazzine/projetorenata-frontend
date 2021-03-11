@@ -1,6 +1,8 @@
 import React from 'react'
 import ModalTabelaDeCompras from './ModalTabelaDeCompras'
+import BotaoExportarXls from './BotaoExportarParaXls'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import TabelaDeCompras from './TabelaDeCompras'
 
 var comprasFiltradas
 
@@ -43,7 +45,7 @@ export default class ModalListaDeMarcas extends React.Component {
     }
 
     render() {
-        const anos = ['2015', '2016', '2017', '2018', '2019', '2020']
+        const anos = ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
 
         return (
             <React.Fragment>
@@ -92,12 +94,14 @@ export default class ModalListaDeMarcas extends React.Component {
                                         </ul>
                                     </div>
                                 </div>
+                                <div className="modal-footer">
+                                    <BotaoExportarXls codigoCatmat={"todas"} textoBotao={"Exportar todos para XLS"}/>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
+                <TabelaDeCompras compras={this.props.compras} hidden={true}/>
                 <ModalTabelaDeCompras compras={comprasFiltradas} modalState={this.state.modalState} />
             </React.Fragment>
         )

@@ -16,7 +16,6 @@ export default class Compras extends React.Component {
     async carregarCompras() {
         const URL = process.env.REACT_APP_URL_API + '/comprassemlicitacao'
         const resposta = await new FetchGet().obterRespostaFetchGetEmJson(URL)
-
         return obterComprasDoBanco(resposta)
     }
 

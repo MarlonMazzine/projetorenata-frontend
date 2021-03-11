@@ -8,6 +8,7 @@ export default class CabecalhoTabelaDeCompras extends React.Component {
                     <tr>
                         <th className="align-middle" scope="col">#</th>
                         <th className="align-middle" scope="col">Ano da compra</th>
+                        <th className="align-middle" scope="col">Data da compra</th>
                         <th className="align-middle" scope="col">Modalidade</th>
                         <th className="align-middle" scope="col">CATMAT</th>
                         <th className="align-middle" scope="col">Descrição</th>
@@ -17,6 +18,7 @@ export default class CabecalhoTabelaDeCompras extends React.Component {
                         <th className="align-middle" scope="col">Fornecedor</th>
                         <th className="align-middle" scope="col">Marca</th>
                         <th className="align-middle" scope="col">UASG</th>
+                        <th className="align-middle" scope="col">Orgão</th>
                         <th className="align-middle" scope="col">UF</th>
                         {/* <th className="align-middle" scope="col">Ações</th> */}
                     </tr>
