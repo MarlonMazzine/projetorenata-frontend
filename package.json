@@ -10,15 +10,13 @@
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.0",
     "buffer": "^5.6.1",
-    "cors-anywhere": "^0.4.3",
-    "jquery": "^3.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^4.0.3",
     "websocket-extensions": "^0.1.4"
   },
   "engines": {
-    "node": "12.16.2"
+    "node": "14.15.4"
   },
   "scripts": {
     "start": "react-scripts start",
