@@ -7,6 +7,7 @@ export default class CabecalhoTabelaDeCompras extends React.Component {
                 <thead className="thead-dark text-center">
                     <tr>
                         <th className="align-middle" scope="col">#</th>
+                        <th className="align-middle" scope="col">Código da compra</th>
                         <th className="align-middle" scope="col">Ano da compra</th>
                         <th className="align-middle" scope="col">Data da compra</th>
                         <th className="align-middle" scope="col">Modalidade</th>

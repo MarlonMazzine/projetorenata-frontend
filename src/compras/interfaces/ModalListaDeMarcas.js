@@ -95,7 +95,7 @@ export default class ModalListaDeMarcas extends React.Component {
                                     </div>
                                 </div>
                                 <div className="modal-footer">
-                                    <BotaoExportarXls codigoCatmat={"todas"} textoBotao={"Exportar todos para XLS"}/>
+                                    <BotaoExportarXls id={"botaoExportarTodas"} codigoCatmat={"todas"} textoBotao={"Exportar todos para XLS"}/>
                                 </div>
                             </div>
                         </div>

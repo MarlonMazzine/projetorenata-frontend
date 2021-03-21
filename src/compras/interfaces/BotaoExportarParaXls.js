@@ -5,14 +5,17 @@ import { faFileExcel } from '@fortawesome/free-solid-svg-icons'
 
 export default class BotaoExportarXls extends React.Component {
     exportarEmXls() {
-        const elementTable = document.getElementById('tabelaDeCompras')
-        new ExportarTabela().exportarTabelaDeComprasEmXls(`compras_${this.props.codigoCatmat}`, elementTable)
+        const elementTable = this.props.elemetoTabelaDeCompras
+                ? document.querySelector(this.props.elemetoTabelaDeCompras)
+                : document.getElementById('tabelaDeCompras')
+
+        new ExportarTabela().exportarTabelaDeComprasEmXls(`compras_${this.props.codigoCatmat}`, elementTable, this.props.id)
     }
 
     render() {
         return (
             <React.Fragment>
-                <a id="botaoExportarXls"
+                <a id={this.props.id}
                     href="/"
                     type="button"
                     className="btn btn-info"

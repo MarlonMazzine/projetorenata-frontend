@@ -37,7 +37,10 @@ export default class ModalTabelaDeCompras extends React.Component {
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.removerModal.bind(this)}>Fechar</button>
-                                    <BotaoExportarXls codigoCatmat={compras[0].codigocatmat} textoBotao="Exportar todos"/>
+                                    <BotaoExportarXls id={"botaoExportarCodigoAtual"}
+                                        elemetoTabelaDeCompras={"div[class] #tabelaDeCompras"}
+                                        codigoCatmat={compras[0].codigocatmat}
+                                        textoBotao="Exportar todos"/>
                                 </div>
                             </div>
                         </div>
